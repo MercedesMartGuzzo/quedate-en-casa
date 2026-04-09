@@ -16,7 +16,7 @@
   <!-- Header -->
   <div class="app-header">
     <div>
-      <h2 onclick="goToHome()">QUEDATE EN CASA</h2>
+      <h1 onclick="goToHome()">CONFIRMEN</h1>
       <p>Apostá las fechas exactas de cada mes</p>
     </div>
     <div class="current-user">
@@ -26,10 +26,10 @@
 
   <!-- Tabs -->
   <div class="tabs">
-    <button class="tab active" onclick="showTab('apostar', this)">Apostar</button>
-    <button class="tab" onclick="showTab('apuestas', this)">Ver apuestas</button>
-    <button class="tab" onclick="showTab('resultados', this)">Resultados</button>
-    <button class="tab" onclick="showTab('ranking', this)">Ranking</button>
+    <button class="tab active" onclick="showTab('apostar', this)">APOSTAR</button>
+    <button class="tab" onclick="showTab('apuestas', this)">VER APUESTAS</button>
+    <button class="tab" onclick="showTab('resultados', this)">RESULTADO</button>
+    <button class="tab" onclick="showTab('ranking', this)">RANKING</button>
   </div>
 
   <!-- ── TAB: APOSTAR ── -->
@@ -87,11 +87,25 @@
       <div id="players-status"></div>
     </div>
 
+    <!-- Footer -->
+    <div class="section-footer">
+      <div class="footer-scroll">
+        <span class="footer-text">QUEDATE EN CASA <span class="footer-rat">🐀</span></span>
+      </div>
+    </div>
+
   </div>
 
   <!-- ── TAB: VER APUESTAS ── -->
   <div class="section" id="tab-apuestas">
     <div id="apuestas-content"></div>
+    
+    <!-- Footer -->
+    <div class="section-footer">
+      <div class="footer-scroll">
+        <span class="footer-text">QUEDATE EN CASA <span class="footer-rat">🐀</span></span>
+      </div>
+    </div>
   </div>
 
   <!-- ── TAB: RESULTADOS ── -->
@@ -99,7 +113,7 @@
 
     <div class="card">
       <p class="card-title">Resultado real del mes</p>
-      <p style="font-size:12px; color:#a89a8a; margin-bottom:1rem;">
+      <p style="font-size:1rem; color:#a89a8a; margin-bottom:.5rem;">
         Marcá los días en que realmente hubo suspensión.
       </p>
 
@@ -121,6 +135,13 @@
       <div id="resultado-detalle"></div>
     </div>
 
+    <!-- Footer -->
+    <div class="section-footer">
+      <div class="footer-scroll">
+        <span class="footer-text">QUEDATE EN CASA <span class="footer-rat">🐀</span></span>
+      </div>
+    </div>
+
   </div>
 
   <!-- ── TAB: RANKING ── -->
@@ -130,12 +151,12 @@
       <div class="metric">
         <div class="metric-label">Pozo total</div>
         <div class="metric-value" id="pozo-total">$0</div>
-        <div class="metric-sub">acumulado</div>
+        <div class="metric-sub">Acumulado</div>
       </div>
       <div class="metric">
         <div class="metric-label">Mes activo</div>
         <div class="metric-value" id="mes-label-rank" style="font-size:14px; padding-top:4px;">—</div>
-        <div class="metric-sub">en curso</div>
+        <div class="metric-sub">En curso</div>
       </div>
       <div class="metric">
         <div class="metric-label">Líder</div>
@@ -156,6 +177,13 @@
       <button class="ghost" onclick="resetearDatos()" style="font-size:13px; color:#a89a8a; transition: color 0.2s;">
         Borrar todos los datos e iniciar nuevamente
       </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="section-footer">
+      <div class="footer-scroll">
+        <span class="footer-text">QUEDATE EN CASA <span class="footer-rat">🐀</span></span>
+      </div>
     </div>
 
   </div>
