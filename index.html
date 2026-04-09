@@ -1,198 +1,187 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pool de Suspensiones</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="css/styles.css" />
-  
+
   <!-- FullCalendar CSS -->
   <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css' rel='stylesheet' />
 </head>
+
 <body>
 
 <div class="app">
+  
+    <!-- HEADER -->
+    <header class="app-header">
+      <div>
+        <h1 onclick="goToHome()">CONFIRMEN</h1>
+        <p>Apostá las fechas exactas de cada mes</p>
+      </div>
+      <div class="current-user">
+        Jugando como: <strong id="username-display">—</strong>
+      </div>
+    </header>
+   
+    <!-- MAIN -->
+    <main class="app-main ">
+      <!-- NAV / TABS -->
+      <nav class="tabs">
+        <button class="tab active" onclick="showTab('apostar', this)">APOSTAR</button>
+        <button class="tab" onclick="showTab('apuestas', this)">VER APUESTAS</button>
+        <button class="tab" onclick="showTab('resultados', this)">RESULTADO</button>
+        <button class="tab" onclick="showTab('ranking', this)">RANKING</button>
+      </nav>
 
-  <!-- Header -->
-  <div class="app-header">
-    <div>
-      <h1 onclick="goToHome()">CONFIRMEN</h1>
-      <p>Apostá las fechas exactas de cada mes</p>
-    </div>
-    <div class="current-user">
-      Jugando como: <strong id="username-display">—</strong>
-    </div>
-  </div>
+      <!-- ── TAB: APOSTAR ── -->
+      <section class="section active" id="tab-apostar">
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('apostar', this)">APOSTAR</button>
-    <button class="tab" onclick="showTab('apuestas', this)">VER APUESTAS</button>
-    <button class="tab" onclick="showTab('resultados', this)">RESULTADO</button>
-    <button class="tab" onclick="showTab('ranking', this)">RANKING</button>
-  </div>
-
-  <!-- ── TAB: APOSTAR ── -->
-  <div class="section active" id="tab-apostar">
-
-    <div class="card">
-      <div class="form-row">
-        <div>
-          <label class="no-top">Mes</label>
-          <select id="mes-select" onchange="cambiarMes()"></select>
+        <div class="card">
+          <div class="form-row">
+            <div>
+              <label class="no-top">Mes</label>
+              <select id="mes-select" onchange="cambiarMes()"></select>
+            </div>
+            <div>
+              <label class="no-top">Tu nombre</label>
+              <select id="player-select" onchange="updatePlayer()">
+                <option value="">— Elegí tu nombre —</option>
+              </select>
+            </div>
+            <div style="min-width:120px;">
+              <label class="no-top">Tu apuesta (ARS)</label>
+              <input type="number" id="monto-input" value="500" min="100" step="100" />
+            </div>
+          </div>
         </div>
-        <div>
-          <label class="no-top">Tu nombre</label>
-          <select id="player-select" onchange="updatePlayer()">
-            <option value="">— Elegí tu nombre —</option>
-          </select>
+
+        <div class="card" id="cal-card" style="display:none;">
+          <div class="cal-controls">
+            <p class="card-title">Marcá los días que creés que habrá suspensión</p>
+            <span>Seleccionados: <strong id="dias-sel-count">0</strong></span>
+          </div>
+
+          <div id="cal-picker" style="background: #1a1a18; border-radius: 8px; padding: 1rem;"></div>
+
+          <div class="btn-row">
+            <button class="primary" onclick="guardarApuesta()">Confirmar apuesta</button>
+            <button class="ghost" onclick="clearCalendar()">Limpiar</button>
+          </div>
+
+          <p class="small">Las apuestas se revelan cuando todos hayan apostado.</p>
         </div>
-        <div style="min-width:120px;">
-          <label class="no-top">Tu apuesta (ARS)</label>
-          <input type="number" id="monto-input" value="500" min="100" step="100" />
+
+        <div id="ya-aposto-msg" style="display:none;">
+          <div class="info-box">
+            Ya registraste tu apuesta para este mes. ¡Esperá que apuesten todos!
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Calendario de apuesta -->
-    <div class="card" id="cal-card" style="display:none;">
-      <div class="cal-controls">
-        <p class="card-title" style="margin-bottom:1rem;">
-          Marcá los días que creés que habrá suspensión
-        </p>
-        <span>Seleccionados: <strong id="dias-sel-count">0</strong></span>
-      </div>
+        <div class="card">
+          <p class="card-title">Estado de participantes</p>
+          <div id="players-status"></div>
+        </div>
 
-      <div id="cal-picker" style="background: #1a1a18; border-radius: 8px; padding: 1rem;"></div>
+      </section>
 
-      <div class="btn-row">
-        <button class="primary" onclick="guardarApuesta()" style="flex:1;">
-          Confirmar apuesta
-        </button>
-        <button class="ghost" onclick="clearCalendar()">Limpiar</button>
-      </div>
-      <p class="small">Las apuestas se revelan cuando todos hayan apostado.</p>
-    </div>
+      <!-- ── TAB: VER APUESTAS ── -->
+      <section class="section" id="tab-apuestas">
+        <div id="apuestas-content"></div>
+      </section>
 
-    <!-- Ya apostó -->
-    <div id="ya-aposto-msg" style="display:none;">
-      <div class="info-box">
-        Ya registraste tu apuesta para este mes. ¡Esperá que apuesten todos!
-      </div>
-    </div>
+      <!-- ── TAB: RESULTADOS ── -->
+      <section class="section" id="tab-resultados">
 
-    <!-- Estado de participantes -->
-    <div class="card">
-      <p class="card-title">Estado de participantes</p>
-      <div id="players-status"></div>
-    </div>
+        <div class="card">
+          <p class="card-title">Resultado real del mes</p>
+          <p style="font-size:1rem; color:#a89a8a;">
+            Marcá los días en que realmente hubo suspensión.
+          </p>
 
-    <!-- Footer -->
-    <div class="section-footer">
+          <div class="cal-controls">
+            <span>Días con suspensión: <strong id="res-dias-count">0</strong></span>
+          </div>
+
+          <div id="res-cal-picker" style="background: #1a1a18; border-radius: 8px; padding: 1rem;"></div>
+
+          <div class="btn-row">
+            <button class="primary" onclick="guardarResultado()">
+              Guardar y calcular puntos
+            </button>
+          </div>
+        </div>
+
+        <div class="card" id="resultado-summary" style="display:none;">
+          <p class="card-title">Puntuaciones del mes</p>
+          <div id="resultado-detalle"></div>
+        </div>
+
+      </section>
+
+      <!-- ── TAB: RANKING ── -->
+      <section class="section" id="tab-ranking">
+
+        <div class="metric-grid">
+          <div class="metric">
+            <div class="metric-label">Pozo total</div>
+            <div class="metric-value" id="pozo-total">$0</div>
+            <div class="metric-sub">Acumulado</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Mes activo</div>
+            <div class="metric-value" id="mes-label-rank">—</div>
+            <div class="metric-sub">En curso</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Líder</div>
+            <div class="metric-value" id="lider-nombre">—</div>
+            <div class="metric-sub" id="lider-pts">0 pts</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <p class="card-title">Tabla de posiciones</p>
+          <div id="ranking-list"></div>
+        </div>
+
+        <div style="margin-top:2rem; padding-top:1rem; border-top: 1px solid #333330;">
+          <p style="font-size:11px; color:#9a9290;">
+            🔄 Reiniciar el juego
+          </p>
+          <button class="ghost" onclick="resetearDatos()">
+            Borrar todos los datos e iniciar nuevamente
+          </button>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- FOOTER GLOBAL -->
+    <footer class="section-footer">
       <div class="footer-scroll">
-        <span class="footer-text">QUEDATE EN CASA <span class="footer-rat">🐀</span></span>
+        <span class="footer-text">QUEDATE EN CASA 🐀</span>
       </div>
-    </div>
+    </footer>
+</div>
 
-  </div>
+  <!-- SCRIPTS -->
 
-  <!-- ── TAB: VER APUESTAS ── -->
-  <div class="section" id="tab-apuestas">
-    <div id="apuestas-content"></div>
-    
-    <!-- Footer -->
-    <div class="section-footer">
-      <div class="footer-scroll">
-        <span class="footer-text">QUEDATE EN CASA <span class="footer-rat">🐀</span></span>
-      </div>
-    </div>
-  </div>
+  <!-- FullCalendar JS -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 
-  <!-- ── TAB: RESULTADOS ── -->
-  <div class="section" id="tab-resultados">
+  <!-- Tu JS -->
+  <script src="js/app.js"></script>
 
-    <div class="card">
-      <p class="card-title">Resultado real del mes</p>
-      <p style="font-size:1rem; color:#a89a8a; margin-bottom:.5rem;">
-        Marcá los días en que realmente hubo suspensión.
-      </p>
-
-      <div class="cal-controls">
-        <span>Días con suspensión: <strong id="res-dias-count">0</strong></span>
-      </div>
-
-      <div id="res-cal-picker" style="background: #1a1a18; border-radius: 8px; padding: 1rem;"></div>
-
-      <div class="btn-row">
-        <button class="primary" onclick="guardarResultado()">
-          Guardar y calcular puntos
-        </button>
-      </div>
-    </div>
-
-    <div class="card" id="resultado-summary" style="display:none;">
-      <p class="card-title">Puntuaciones del mes</p>
-      <div id="resultado-detalle"></div>
-    </div>
-
-    <!-- Footer -->
-    <div class="section-footer">
-      <div class="footer-scroll">
-        <span class="footer-text">QUEDATE EN CASA <span class="footer-rat">🐀</span></span>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ── TAB: RANKING ── -->
-  <div class="section" id="tab-ranking">
-
-    <div class="metric-grid">
-      <div class="metric">
-        <div class="metric-label">Pozo total</div>
-        <div class="metric-value" id="pozo-total">$0</div>
-        <div class="metric-sub">Acumulado</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Mes activo</div>
-        <div class="metric-value" id="mes-label-rank" style="font-size:14px; padding-top:4px;">—</div>
-        <div class="metric-sub">En curso</div>
-      </div>
-      <div class="metric">
-        <div class="metric-label">Líder</div>
-        <div class="metric-value" id="lider-nombre" style="font-size:15px; padding-top:4px;">—</div>
-        <div class="metric-sub" id="lider-pts">0 pts</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <p class="card-title">Tabla de posiciones</p>
-      <div id="ranking-list"></div>
-    </div>
-
-    <div style="margin-top:2rem; padding-top:1rem; border-top: 1px solid #333330;">
-      <p style="font-size:11px; color:#9a9290; margin-bottom:0.75rem;">
-        🔄 Reiniciar el juego
-      </p>
-      <button class="ghost" onclick="resetearDatos()" style="font-size:13px; color:#a89a8a; transition: color 0.2s;">
-        Borrar todos los datos e iniciar nuevamente
-      </button>
-    </div>
-
-    <!-- Footer -->
-    <div class="section-footer">
-      <div class="footer-scroll">
-        <span class="footer-text">QUEDATE EN CASA <span class="footer-rat">🐀</span></span>
-      </div>
-    </div>
-
-  </div>
-
-</div><!-- /app -->
-
-<!-- FullCalendar JS -->
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
-
-<script src="js/app.js"></script>
 </body>
 </html>

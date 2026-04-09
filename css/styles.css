@@ -4,6 +4,11 @@
   padding: 0;
 }
 
+:root {
+  --ff-font: "Archivo Black", sans-serif;
+
+}
+
 /* ── Animations ── */
 @keyframes fadeIn {
   from {
@@ -54,15 +59,20 @@
 }
 
 body {
-  font-family: system-ui, sans-serif;
+  font-family: var(--ff-font);
   background: #1a1a18;
   color: #f5f4f0;
+  margin: 0;
 }
 
 .app {
-  max-width: 740px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 1rem;
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
 }
 
 /* ── Header ── */
@@ -72,6 +82,7 @@ body {
   justify-content: space-between;
   margin-bottom: 1.5rem;
   animation: fadeIn 0.6s ease-out;
+ 
 }
 
 .app-header h1 {
@@ -236,7 +247,8 @@ button.primary {
   color: #0a0a08;
   border-color: #f5f4f0;
 }
-.fc-direction-ltr .fc-toolbar > * > :not(:first-child){
+
+.fc-direction-ltr .fc-toolbar>*> :not(:first-child) {
   margin-left: 0;
   margin-bottom: .5rem;
   width: 100px;
@@ -246,7 +258,7 @@ button.primary {
   background-color: #0f6e56;
 }
 
- 
+
 button.primary:hover {
   background: #e0dfd8;
 }
@@ -513,6 +525,7 @@ button.ghost {
   color: #9a9290;
   font-size: 14px;
 }
+
 .fc-toolbar-chunk {
   display: flex;
   gap: 8px;
@@ -520,11 +533,12 @@ button.ghost {
   text-align: center;
   font-weight: 700;
 }
+
 .fc .fc-toolbar-title {
   font-size: 2rem;
- font-weight: 500;
+  font-weight: 500;
   text-transform: uppercase;
-margin-bottom: .4rem;
+  margin-bottom: .4rem;
 }
 
 /* ── Mobile Responsive ── */
@@ -801,13 +815,14 @@ margin-bottom: .4rem;
   gap: 1rem;
 }
 
-.fc-today-button{
+.fc-today-button {
   border: 1px solid #0f6e56;
   border-radius: 5px;
   max-width: 80px;
   margin-top: 1rem;
   background-color: #0f6e56;
-  font-size: 1rem;;
+  font-size: 1rem;
+  ;
 }
 
 .fc-button-primary {
@@ -892,7 +907,7 @@ margin-bottom: .4rem;
   font-size: 1rem;
   font-weight: 500;
   text-transform: uppercase;
-margin-bottom: .4rem;
+  margin-bottom: .4rem;
 }
 
 .fc-button-group {
@@ -906,6 +921,7 @@ margin-bottom: .4rem;
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100vw);
   }
@@ -931,7 +947,7 @@ margin-bottom: .4rem;
 .footer-text {
   font-size: 3rem;
   font-weight: 700;
-  color:white;
+  color: white;
   text-transform: uppercase;
   letter-spacing: 2px;
   animation: scrollText 10s linear infinite;
